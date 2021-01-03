@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Internal apps
     'api.apps.ApiConfig',
+    # CORS Handler
+    'corsheaders',
     # Django rest framework
     'rest_framework',
     # Preloaded apps Django
@@ -45,6 +47,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # CORS Middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -123,3 +127,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Cors handler for frontend
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
