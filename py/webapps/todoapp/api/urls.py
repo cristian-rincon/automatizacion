@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     #path('', views.apiOverview, name="api-overview"),
     path('task/<str:pk>', views.TaskDetail.as_view()),
-    path('tasks', views.TasksList.as_view()),
+    path('tasks/', views.TasksList.as_view()),
 ]
 
 
