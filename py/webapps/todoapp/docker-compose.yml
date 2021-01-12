@@ -13,7 +13,7 @@ services:
     networks:
       - db-net
 
-  app:
+  backend:
     restart: always
     container_name: backend
     command: bash -c "python manage.py makemigrations &&
@@ -31,7 +31,7 @@ services:
 
   frontend:
     restart: always
-    command: npm start
+    command: nodemon start
     container_name: frontend
     build:
       context: ./frontend/
@@ -40,7 +40,7 @@ services:
       - "3000:3000"
     stdin_open: true
     depends_on:
-      - app
+      - backend
     networks:
       - db-net
 

@@ -54,3 +54,4 @@ docker-compose run --rm app python manage.py createsuperuser
 ```
 
 Once you have created superuser successfully, go to `localhost:8000/admin` and test you login
+To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
