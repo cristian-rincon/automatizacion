@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: django_todo
+      POSTGRES_USER: crincon
+      POSTGRES_PASSWORD: Pruebas00
+      PGDATA: /tmp/pgdata
+
+    volumes:
+      - postgres_data:/tmp/pgdata
+    networks:
+      - db-net
+
+  app:
+    restart: always
+    container_name: backend
+    command: bash -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - db-net
+
+  frontend:
+    restart: always
+    command: npm start
+    container_name: frontend
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - app
+    networks:
+      - db-net
+
+networks:
+  db-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
