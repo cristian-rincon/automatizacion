@@ -104,7 +104,7 @@ class App extends Component {
     this.toggle();
     if (item.id) {
       axios
-        .put(`http://localhost:8000/api/task/${item.id}/`, item)
+        .put(`http://localhost:8000/api/task/${item.id}`, item)
         .then(res => this.refreshList());
       return;
     }
