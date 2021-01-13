@@ -37,11 +37,29 @@
   }
 }
 
-
 /*
 Modal
 */
 
 .modal-content {
-  border-radius: 1.5em !important;
+  border-radius: 0.5em !important;
+}
+
+li {
+  border-radius: 50px !important;
+}
+
+li:hover {
+  box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.09);
+
+}
+
+ul {
+  border: none !important;
+}
+
+
+.card-footer, .card-body, .modal-header, .modal-body, .modal-footer {
+  border: none !important;
+  background-color:#f8f9fa !important;
 }

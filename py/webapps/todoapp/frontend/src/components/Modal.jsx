@@ -63,7 +63,7 @@ export default class CustomModal extends Component {
                   name="completed"
                   checked={this.state.activeItem.completed}
                   onChange={this.handleChange}
-                />
+                valid/>
                 Completed
               </Label>
             </FormGroup>
