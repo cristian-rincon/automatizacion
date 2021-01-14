@@ -4,15 +4,11 @@ import ffmpeg
 from tqdm import tqdm
 
 
-def convert_to_mp4(input_file: str):
+def convert_to_mp4(input_file: str) -> None:
     
     """ Convert video to mp4.
     :type input_file: str
     :param input_file: path of the video you want to convert into mp4.
-
-    :raises:
-
-    :rtype:
     """
     filename = os.path.splitext(os.path.basename(input_file))[0]
     converted_filename = f'{filename}.mp4'
