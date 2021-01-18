@@ -1,10 +1,7 @@
 import os
-import re
 import sys
 import logging
-
 import humanfriendly
-
 import pytube
 from pytube.cli import on_progress
 
@@ -19,46 +16,54 @@ formatter = logging.Formatter(
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+
 class DownloaderHandler():
-    
+    """
+    docstring
+    """
+
     def __init__(self):
-        pass
+        self.output_path = os.path.join(os.path.expanduser('~'), 'Downloads')
 
-    def greeting(self):
+    def download(self, video_url, file_extension):
         """
-        docstring
+        Save videos as mp4 by Default.
         """
-        pass
+        try:
+            video = pytube.YouTube(video_url, on_progress_callback=on_progress)
+            stream = None
+            if file_extension is None:
+                video_type = video.streams.filter(progressive=True)
+                stream = video_type.order_by('resolution').first()
+                logger.info(f"\nGetting the video: {stream.title}")
+                logger.info(
+                    f"Saved at: {stream.download(self.output_path, f'{stream.title}.mp4')}")
+            elif file_extension == 'mp3':
+                logger.info("Audio downloader\n")
+                stream = video.streams.filter(
+                    only_audio=True)[0]
+                logger.info(f"\nGetting the video: {stream.title}")
+                dl = stream.download(self.output_path)
+                to_mp3 = os.path.join(
+                    self.output_path, f'{stream.title}.mp3')
+                dl_rename = os.rename(dl, to_mp3)
+                logger.info(
+                    f"Saved at: {to_mp3}")
 
-def deEmojify(text):
-    regrex_pattern = re.compile(pattern="["
-                                u"\U0001F600-\U0001F64F"  # emoticons
-                                u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                                u"\U0001F680-\U0001F6FF"  # transport & map symbols
-                                u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                                "]+", flags=re.UNICODE)
-    return regrex_pattern.sub(r'', text)
+            logger.info(
+                f"Size of the video: {humanfriendly.format_size(stream.filesize)}")
 
-
-def downloader(video_url: str):
-    """
-    Simple tool to download youtube videos.
-    """
-    try:
-        video = pytube.YouTube(video_url, on_progress_callback=on_progress)
-        video_type = video.streams.filter(progressive=True)
-        stream = video_type.order_by('resolution').first()
-        logger.info(f"\nGetting the video: {stream.title}")
-        logger.info(
-            f"Size of the video: {humanfriendly.format_size(stream.filesize)}")
-        logger.info(
-            f"Video saved at: {stream.download(os.path.join(os.path.expanduser('~'), 'Downloads'))}")
-
-    except pytube.exceptions.RegexMatchError:
-        logger.error(f"\nLa URL especificada no es válida: {video_url}")
-        exit()
+        except pytube.exceptions.RegexMatchError:
+            logger.error(f"\nURL is not valid: {self.video_url}")
+            exit()
 
 
 if __name__ == "__main__":
     video_url = sys.argv[1]
-    downloader(video_url)
+    try:
+        file_extension = sys.argv[2]
+    except IndexError:
+        file_extension = None
+
+    yt = DownloaderHandler()
+    yt.download(video_url, file_extension)
