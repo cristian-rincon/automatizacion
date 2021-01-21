@@ -57,5 +57,4 @@ if __name__ == "__main__":
         user = input('Enter the name of user or group : ')
         msg = input('Enter your message : ')
         wsp_bot = WhatsappBotHandler()
-
         wsp_bot.send_message(user, msg)
