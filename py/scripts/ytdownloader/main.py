@@ -3,6 +3,7 @@ import sys
 import logging
 import humanfriendly
 import pytube
+from tqdm import tqdm
 from pytube.cli import on_progress
 
 # '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -22,7 +23,7 @@ class DownloaderHandler():
     def __init__(self):
         pass
 
-    def download(self, video_url: str, file_extension: str, output_path: str):
+    def download(self, video_url: str, file_extension: str, output_path: str = None):
         """
         Save videos as mp4 by Default.
         """
@@ -55,18 +56,27 @@ class DownloaderHandler():
             logger.error(f"\nURL is not valid: {self.video_url}")
             exit()
 
+    def batch_download_mp3(self, video_list_path: str):
+
+        video_list = open(video_list_path).readlines()
+
+        for video in tqdm(video_list):
+            self.download(video, 'mp3')
+
 
 if __name__ == "__main__":
-    video_url = sys.argv[1]
-    try:
-        file_extension = sys.argv[2]
-    except IndexError:
-        file_extension = None
+    # video_url = sys.argv[1]
+    # try:
+    #     file_extension = sys.argv[2]
+    # except IndexError:
+    #     file_extension = None
 
-    try:
-        output_path = sys.argv[3]
-    except IndexError:
-        output_path = None
+    # try:
+    #     output_path = sys.argv[3]
+    # except IndexError:
+    #     output_path = None
 
     yt = DownloaderHandler()
-    yt.download(video_url, file_extension, output_path)
+    # yt.download(video_url, file_extension, output_path)
+    videos_list_path = sys.argv[1]
+    yt.batch_download_mp3(videos_list_path)
