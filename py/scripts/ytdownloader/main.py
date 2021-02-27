@@ -20,9 +20,6 @@ logger.addHandler(ch)
 
 class DownloaderHandler():
 
-    def __init__(self):
-        pass
-
     def download(self, video_url: str, file_extension: str, output_path: str = None):
         """
         Save videos as mp4 by Default.
@@ -80,3 +77,5 @@ if __name__ == "__main__":
     # yt.download(video_url, file_extension, output_path)
     videos_list_path = sys.argv[1]
     yt.batch_download_mp3(videos_list_path)
+
+
