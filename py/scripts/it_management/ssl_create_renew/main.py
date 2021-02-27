@@ -42,7 +42,7 @@ def server(option: str = typer.Option(..., help="Commands for gitlab nginx admin
 
 
 @app.command()
-def ssl_certificate(option: str = typer.Option(..., help="Commands for ssl certificates administration")):
+def ssl_certificate(option: str = typer.Argument(..., help="Commands for ssl certificates administration")):
     if option == "create":
         create_certs = f'{CommandsHandler.start_create} {"".join(domains_to_create)} {CommandsHandler.letsencrypt_create}'
         server("stop")
@@ -60,7 +60,7 @@ def ssl_certificate(option: str = typer.Option(..., help="Commands for ssl certi
 
 
 @app.command()
-def gitlab(option: str = typer.Option("status", help="Commands for gitlab instance administration")):
+def gitlab(option: str = typer.Argument("status", help="Commands for gitlab instance administration")):
     if option == "update":
         typer.secho("Updating system:", fg=typer.colors.GREEN)
         os.system('sudo apt update')
