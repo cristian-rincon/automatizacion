@@ -27,10 +27,7 @@ domains = [
     "internal-projects.gitlab.grupodot.com",
 ]
 
-domains_to_create = []
-for domain in domains:
-    domains_to_create.append(f'--domains="{domain}"')
-
+domains_to_create = [f'--domains="{domain}"' for domain in domains]
 
 @app.command()
 def server(option: str = typer.Option(..., help="Commands for gitlab nginx administration")):
